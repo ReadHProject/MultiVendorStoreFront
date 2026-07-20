@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Icon } from "@/components/ui/icon";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { api } from "@/lib/api";
+import { toast } from "@/components/ui/toaster";
 
 export function HeaderActions() {
   const router = useRouter();
