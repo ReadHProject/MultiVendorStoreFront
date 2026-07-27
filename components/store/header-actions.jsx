@@ -111,7 +111,7 @@ export function HeaderActions() {
         </div>
       ) : !loading ? (
         <a
-          href="http://localhost:3001/login"
+          href={(process.env.NEXT_PUBLIC_ADMIN_URL || "http://localhost:3001") + "/login"}
           className="flex items-center gap-2 p-2 rounded-md hover:bg-muted transition-colors text-sm font-medium"
         >
           <Icon name="user" size={18} />

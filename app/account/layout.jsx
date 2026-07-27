@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Icon } from "@/components/ui/icon";
 import { api } from "@/lib/api";
 import StoreLayout from "../store/layout";
-
+import { LoadingAnimation } from "@/components/ui/loading-animation";
 const navItems = [
   { href: "/account/dashboard", label: "Dashboard", icon: "dashboard" },
   { href: "/store", label: "Shop Products", icon: "store" },
@@ -40,7 +40,7 @@ export default function AccountLayout({ children }) {
       } catch (err) {
         console.error("Auth check failed in layout", err);
       }
-      window.location.href = "http://localhost:3001/login?from=" + encodeURIComponent(window.location.href);
+      window.location.href = (process.env.NEXT_PUBLIC_ADMIN_URL || "http://localhost:3001") + "/login?from=" + encodeURIComponent(window.location.href);
     }
     checkAuth();
   }, []);
@@ -57,7 +57,7 @@ export default function AccountLayout({ children }) {
     return (
       <StoreLayout>
         <div className="min-h-screen flex items-center justify-center bg-[#fafafa]">
-          <div className="text-muted-foreground animate-pulse text-sm font-medium">Loading dashboard...</div>
+          <LoadingAnimation type="spinner" />
         </div>
       </StoreLayout>
     );

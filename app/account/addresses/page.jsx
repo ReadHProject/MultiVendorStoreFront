@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import { Icon } from "@/components/ui/icon";
 import { toast } from "@/components/ui/toaster";
-
+import { LoadingAnimation } from "@/components/ui/loading-animation";
 export default function AddressesPage() {
   const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -75,7 +75,7 @@ export default function AddressesPage() {
 
       <div className="p-6">
         {loading ? (
-           <div className="flex justify-center py-12"><Icon name="loader-2" className="animate-spin text-gray-400" size={32} /></div>
+           <LoadingAnimation type="spinner" />
         ) : addresses.length === 0 ? (
           <div className="text-center py-16">
             <div className="bg-pink-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
