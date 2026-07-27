@@ -21,7 +21,9 @@ export function HeaderActions() {
           setUser(data);
         }
       } catch (err) {
-        console.error("Auth check failed", err);
+        if (err.status !== 401) {
+          console.error("Auth check failed", err);
+        }
       } finally {
         setLoading(false);
       }

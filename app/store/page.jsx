@@ -1,5 +1,6 @@
 import { api } from "@/lib/api";
 import { ProductCard } from "@/components/store/product-card";
+import { StoreSlider } from "@/components/store/store-slider";
 
 export const revalidate = 60;
 
@@ -24,38 +25,7 @@ export default async function StoreHomePage() {
     <div className="bg-[#fafafa] min-h-screen pb-12">
       {/* 1. Carousel Section */}
       <section className="container mx-auto px-4 py-6">
-        {sliders.length > 0 ? (
-          <div className="relative rounded-2xl overflow-hidden bg-muted">
-            {sliders.map((slider, i) => (
-              <div key={slider.id || i} className="text-center py-16 md:py-24">
-                {slider.title && <h1 className="text-3xl md:text-5xl font-bold mb-4">{slider.title}</h1>}
-                {slider.subtitle && <p className="text-lg text-muted-foreground mb-6">{slider.subtitle}</p>}
-                {slider.linkText && slider.linkUrl && (
-                  <a href={slider.linkUrl} className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#E92B58] text-white font-bold hover:bg-[#d0204b] transition-all">
-                    {slider.linkText}
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="relative rounded-3xl overflow-hidden bg-black aspect-[4/3] sm:aspect-[21/9] md:aspect-[3/1] flex items-center shadow-xl">
-             <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-transparent w-full md:w-2/3 z-10 mix-blend-multiply"></div>
-             {/* Text Content */}
-             <div className="relative z-20 p-8 md:p-16 w-full md:w-1/2 flex flex-col items-center md:items-start justify-center h-full text-center md:text-left">
-               <h1 className="text-white text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9] drop-shadow-2xl italic">
-                 <span className="block text-4xl md:text-6xl text-white font-serif italic font-normal tracking-normal mb-[-10px] md:mb-[-20px]">Sale</span>
-                 BLACK<br/>FRIDAY
-               </h1>
-               <div className="mt-6 md:mt-10">
-                 <a href="/store/products" className="bg-[#E92B58] text-white px-8 md:px-10 py-3 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-[#d0204b] transition-transform hover:scale-105 shadow-xl inline-block">
-                   Shop Now
-                 </a>
-               </div>
-             </div>
-             <div className="absolute right-0 top-0 bottom-0 w-full md:w-2/3 bg-[url('https://images.unsplash.com/photo-1607083206869-4c7672072395?q=80&w=2087&auto=format&fit=crop')] bg-cover bg-center md:bg-right opacity-60"></div>
-          </div>
-        )}
+        <StoreSlider sliders={sliders} />
       </section>
 
       {tickers.length > 0 && (
