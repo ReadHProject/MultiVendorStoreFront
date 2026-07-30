@@ -112,13 +112,13 @@ export function HeaderActions() {
           </div>
         </div>
       ) : !loading ? (
-        <a
-          href={(process.env.NEXT_PUBLIC_ADMIN_URL || "http://localhost:3001") + "/login"}
+        <Link
+          href="/login"
           className="flex items-center gap-2 p-2 rounded-md hover:bg-muted transition-colors text-sm font-medium"
         >
           <Icon name="user" size={18} />
           <span className="hidden sm:inline">Login / Register</span>
-        </a>
+        </Link>
       ) : null}
     </div>
   );

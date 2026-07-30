@@ -40,7 +40,7 @@ export default function AccountLayout({ children }) {
       } catch (err) {
         console.error("Auth check failed in layout", err);
       }
-      window.location.href = (process.env.NEXT_PUBLIC_ADMIN_URL || "http://localhost:3001") + "/login?from=" + encodeURIComponent(window.location.href);
+      window.location.href = "/login?from=" + encodeURIComponent(window.location.href);
     }
     checkAuth();
   }, []);

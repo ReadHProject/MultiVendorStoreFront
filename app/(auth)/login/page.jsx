@@ -21,10 +21,14 @@ export default function LoginPage() {
     setLoading(true);
     try {
       const data = await api.post("/auth/login", form);
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      if (data.accessToken) {
+        localStorage.setItem("erp_access_token", data.accessToken);
+      }
+      if (data.user) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+      }
       toast.success("Welcome back!");
-      router.push("/store");
+      router.push("/account/dashboard");
     } catch (err) {
       toast.error(err.message || "Invalid credentials");
     } finally {

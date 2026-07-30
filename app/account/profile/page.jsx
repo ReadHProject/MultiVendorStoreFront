@@ -29,7 +29,7 @@ export default function ProfilePage() {
       } catch (err) {
         console.error(err);
       }
-      window.location.href = (process.env.NEXT_PUBLIC_ADMIN_URL || "http://localhost:3001") + "/login";
+      window.location.href = "/login";
     }
     checkAuth();
   }, [router]);

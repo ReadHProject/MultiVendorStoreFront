@@ -4,10 +4,42 @@ import { Icon } from "@/components/ui/icon";
 import { useEffect, useState } from "react";
 
 import { api } from "@/lib/api";
+import { getAdminUrl } from "@/lib/utils";
+
+function getRoleMeta(roles = []) {
+  if (roles.includes("SUPER_ADMIN") || roles.includes("ADMIN") || roles.includes("SUB_ADMIN")) {
+    return {
+      label: "Administrator",
+      discount: "Admin Pricing",
+      credit: "Full System Access",
+      badgeBg: "bg-purple-100 text-purple-700",
+      isAdmin: true,
+    };
+  }
+  if (roles.includes("DISTRIBUTOR")) {
+    return { label: "Distributor", discount: "35-45% OFF", credit: "45 Days", badgeBg: "bg-indigo-100 text-indigo-700" };
+  }
+  if (roles.includes("WHOLESALER")) {
+    return { label: "Wholesaler", discount: "30-40% OFF", credit: "30 Days", badgeBg: "bg-violet-100 text-violet-700" };
+  }
+  if (roles.includes("DEALER")) {
+    return { label: "Dealer", discount: "20-30% OFF", credit: "15 Days", badgeBg: "bg-blue-100 text-blue-700" };
+  }
+  if (roles.includes("RETAILER")) {
+    return { label: "Retailer", discount: "10-20% OFF", credit: "7 Days", badgeBg: "bg-emerald-100 text-emerald-700" };
+  }
+  if (roles.includes("PARLOUR")) {
+    return { label: "Beauty Parlour", discount: "15-25% OFF", credit: "15 Days", badgeBg: "bg-pink-100 text-pink-700" };
+  }
+  if (roles.includes("SALESMAN")) {
+    return { label: "Sales Representative", discount: "Sales Partner", credit: "Internal", badgeBg: "bg-amber-100 text-amber-700" };
+  }
+  return { label: "Customer", discount: "Standard Member", credit: "Prepaid / COD", badgeBg: "bg-gray-100 text-gray-700" };
+}
 
 export default function DashboardPage() {
   const [user, setUser] = useState(null);
-  
+
   useEffect(() => {
     async function fetchUser() {
       try {
@@ -20,6 +52,8 @@ export default function DashboardPage() {
     fetchUser();
   }, []);
 
+  const roleMeta = getRoleMeta(user?.roles || []);
+
   return (
     <div className="space-y-6">
       {/* Welcome Header */}
@@ -28,11 +62,22 @@ export default function DashboardPage() {
           <h1 className="text-2xl font-bold text-gray-900">
             Welcome back, {user?.name?.split(' ')[0] || 'Guest'}!
           </h1>
-          <p className="text-gray-500 mt-1">Here's what's happening with your business today.</p>
+          <p className="text-gray-500 mt-1">Here's what's happening with your account today.</p>
         </div>
-        <div className="bg-[#f0ebff] text-[#7c3aed] px-4 py-2 rounded-full font-bold text-sm flex items-center gap-2 self-start sm:self-auto shadow-sm">
-          <Icon name="star" size={16} />
-          {user?.roles?.includes("WHOLESALER") ? "Wholesaler" : "Customer"} • Best Price
+        <div className="flex items-center gap-3">
+          <div className={`${roleMeta.badgeBg} px-4 py-2 rounded-full font-bold text-sm flex items-center gap-2 self-start sm:self-auto shadow-sm`}>
+            <Icon name="star" size={16} />
+            {roleMeta.label} Tier
+          </div>
+          {roleMeta.isAdmin && (
+            <a
+              href={getAdminUrl("/admin")}
+              className="bg-slate-900 text-white hover:bg-slate-800 px-4 py-2 rounded-full font-bold text-sm flex items-center gap-2 shadow-sm transition-colors"
+            >
+              <Icon name="layout-dashboard" size={16} />
+              Admin App
+            </a>
+          )}
         </div>
       </div>
 
@@ -59,16 +104,16 @@ export default function DashboardPage() {
           </div>
           <div className="text-3xl font-bold text-gray-900">₹0</div>
           <div className="text-xs text-green-600 font-medium mt-1 flex items-center gap-1">
-            <Icon name="trending-up" size={12} /> 12%
+            <Icon name="trending-up" size={12} /> Tier Active
           </div>
         </div>
         <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-gray-500 font-medium text-sm">Total Saved</span>
-            <Icon name="check" size={18} className="text-emerald-500" />
+            <span className="text-gray-500 font-medium text-sm">Role Status</span>
+            <Icon name="shield" size={18} className="text-emerald-500" />
           </div>
-          <div className="text-3xl font-bold text-gray-900">₹0</div>
-          <div className="text-xs text-gray-400 mt-1">vs MRP Pricing</div>
+          <div className="text-xl font-bold text-gray-900 truncate">{roleMeta.label}</div>
+          <div className="text-xs text-gray-400 mt-1">Role Managed via Admin</div>
         </div>
       </div>
 
@@ -83,11 +128,11 @@ export default function DashboardPage() {
           <div className="space-y-3 mb-8">
             <div className="bg-white/10 rounded-xl p-4 flex items-center justify-between backdrop-blur-sm">
               <span className="text-white/80 text-sm font-medium">Discount Tier</span>
-              <span className="font-bold text-lg">30-40% OFF</span>
+              <span className="font-bold text-lg">{roleMeta.discount}</span>
             </div>
             <div className="bg-white/10 rounded-xl p-4 flex items-center justify-between backdrop-blur-sm">
               <span className="text-white/80 text-sm font-medium">Credit Terms</span>
-              <span className="font-bold text-lg">30 Days</span>
+              <span className="font-bold text-lg">{roleMeta.credit}</span>
             </div>
           </div>
           
